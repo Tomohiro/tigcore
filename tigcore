@@ -1,0 +1,146 @@
+#!/bin/sh
+
+set -e
+
+
+# Define constants
+
+    readonly PREFIX=$(cd $(dirname $0) && pwd)
+    readonly CORE_DLL_PATH=$PREFIX/CoreDlls
+    readonly BIN_NAME=$(basename $0)
+    readonly VERSION='20130326'
+
+
+
+# Display usage
+
+    usage() {
+      echo "Usage: $BIN_NAME COMMAND [args]"
+      echo
+      echo 'Commands:'
+      echo '  versions             # List of all DLL version'
+      echo '  use <version>        # Enable specific DLL version'
+      echo '  install <version>    # Install new DLL'
+      echo "  commands             # List '$BIN_NAME' all commands"
+    }
+
+
+
+# Display list of all available downloads
+
+    versions() {
+      local dll_versions='
+        TwitterIrcGatewayCore.dll-20100512-2.5.3784.31161
+        TwitterIrcGatewayCore.dll-20100513-2.5.3785.18847
+        TwitterIrcGatewayCore.dll-20100517-2.5.3789.30647
+        TwitterIrcGatewayCore.dll-20100728-2.5.3861.21389
+        TwitterIrcGatewayCore.dll-20110523-2.5.3878.22593
+        TwitterIrcGatewayCore.dll-20110523-2.5.4160.2100
+        TwitterIrcGatewayCore.dll-20110820-2.5.4249.30489
+        TwitterIrcGatewayCore.dll-20110821-2.5.4250.36803
+        TwitterIrcGatewayCore.dll-20110928-2.5.4288.31159
+        TwitterIrcGatewayCore.dll-20120108-2.5.4390.4163
+        TwitterIrcGatewayCore.dll-20120226-Debug
+        TwitterIrcGatewayCore.dll-20120817-2.5.4612.26006
+        TwitterIrcGatewayCore.dll-20120817-Debug
+        TwitterIrcGatewayCore.dll-20120817-Debug2
+        TwitterIrcGatewayCore.dll-20120817-Debug3
+        TwitterIrcGatewayCore.dll-20130306
+      '
+      for dll in $dll_versions; do
+        echo $dll
+      done
+    }
+
+
+
+# Download TwitterIrcGatewayCore.dll
+
+    install() {
+      local version=$1
+      local uri="http://www.misuzilla.org/~mayuki/dist/twitterircgateway/$version"
+
+      [ -d $CORE_DLL_PATH ] || {
+        echo "Create directory $CORE_DLL_PATH"
+        mkdir $CORE_DLL_PATH
+      }
+
+      download $uri
+    }
+
+
+
+# Enables specific DLL version
+
+    use() {
+      local version=$1
+      if [ -f $CORE_DLL_PATH/$version ]; then
+        ln -s $CORE_DLL_PATH/$version ./TwitterIrcGatewayCore.dll
+        echo "Created symbolic link to $(pwd)/TwitterIrcGatewayCore.dll"
+      else
+        "$version is not found"
+        exit 1
+      fi
+    }
+
+
+
+# List commands
+
+    commands() {
+      local commands='versions use install'
+      for command in $(echo $commands); do
+        echo $command
+      done
+    }
+
+
+
+# Command not found error
+
+    command_not_found() {
+      local command=$1
+      echo "$BIN_NAME: Could not find command '$command'."
+      echo "See '$BIN_NAME help' for more information on a specific command"
+      exit 1
+    }
+
+
+
+# Download DLL
+
+    download() {
+      local uri=$1
+      if [[ $(type wget) ]]; then
+        wget -P $CORE_DLL_PATH $uri
+      elif [[ $(type curl) ]]; then
+        pushd $CORE_DLL_PATH
+        curl -O $uri
+        popd
+      else
+        echo 'Download tool not found.'
+        echo "Please install 'wget' or 'curl'"
+        exit 1
+      fi
+    }
+
+
+
+case $1 in
+  ''|help|--help|-h)
+    usage ;;
+  versions)
+    versions ;;
+  install)
+    shift
+    install "$@" ;;
+  use)
+    shift
+    use "$@" ;;
+  commands)
+    commands ;;
+  version|--versin|-v)
+    echo "$BIN_NAME $VERSION" ;;
+  *)
+    command_not_found ;;
+esac
