@@ -35,14 +35,17 @@ Check the list of downloadable `TwitterIRCGatewayCoreDLL`
 
 Download `TwitterIRCGatewayCoreDLL`
 
+    $ cd /path/to/your/TweetIrcGateway/
     $ tigcore install TwitterIrcGatewayCore.dll-20130306
 
 
-Enable DLL
+Enable the DLL. Then restart the TweetIrcGateway service.
 
     $ tigcore use TwitterIrcGatewayCore.dll-20130306
-    Created symbolic link to /path/to/TwitterIRCGateway/TwitterIrcGatewayCore.dll
+    Created symbolic link to /path/to/your/TwitterIRCGateway/TwitterIrcGatewayCore.dll
 
+
+Last, restart the TweetIrcGateway service.
 
 
 LICENSE
