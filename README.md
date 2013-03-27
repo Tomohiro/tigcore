@@ -45,8 +45,6 @@ Enable the DLL. Then restart the TweetIrcGateway service.
     Created symbolic link to /path/to/your/TwitterIRCGateway/TwitterIrcGatewayCore.dll
 
 
-Last, restart the TweetIrcGateway service.
-
 
 LICENSE
 --------------------------------------------------------------------------------
