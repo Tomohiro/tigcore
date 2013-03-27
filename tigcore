@@ -5,7 +5,7 @@ set -e
 
 # Define constants
 
-    readonly PREFIX=$(cd $(dirname $0) && pwd)
+    readonly PREFIX=$(pwd)
     readonly CORE_DLL_PATH=$PREFIX/CoreDlls
     readonly BIN_NAME=$(basename $0)
     readonly VERSION='20130326'
