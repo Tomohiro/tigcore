@@ -11,22 +11,18 @@ set -e
     readonly VERSION='20130326'
 
 
-
-# Display usage
+# Sub commands
 
     usage() {
       echo "Usage: $BIN_NAME COMMAND [args]"
       echo
       echo 'Commands:'
-      echo '  versions             # List of all DLL version'
+      echo '  versions             # List of all downloadable DLL'
       echo '  use <version>        # Enable specific DLL version'
       echo '  install <version>    # Install new DLL'
       echo "  commands             # List '$BIN_NAME' all commands"
     }
 
-
-
-# Display list of all available downloads
 
     versions() {
       local dll_versions='
@@ -53,9 +49,6 @@ set -e
     }
 
 
-
-# Download TwitterIrcGatewayCore.dll
-
     install() {
       local version=$1
       local uri="http://www.misuzilla.org/~mayuki/dist/twitterircgateway/$version"
@@ -69,13 +62,10 @@ set -e
     }
 
 
-
-# Enables specific DLL version
-
     use() {
       local version=$1
       if [ -f $CORE_DLL_PATH/$version ]; then
-        ln -s $CORE_DLL_PATH/$version ./TwitterIrcGatewayCore.dll
+        ln -sf $CORE_DLL_PATH/$version ./TwitterIrcGatewayCore.dll
         echo "Created symbolic link to $(pwd)/TwitterIrcGatewayCore.dll"
       else
         "$version is not found"
@@ -83,9 +73,6 @@ set -e
       fi
     }
 
-
-
-# List commands
 
     commands() {
       local commands='versions use install'
@@ -95,8 +82,7 @@ set -e
     }
 
 
-
-# Command not found error
+# Private functions
 
     command_not_found() {
       local command=$1
@@ -105,9 +91,6 @@ set -e
       exit 1
     }
 
-
-
-# Download DLL
 
     download() {
       local uri=$1
