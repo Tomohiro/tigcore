@@ -65,8 +65,8 @@ set -e
     use() {
       local version=$1
       if [ -f $CORE_DLL_PATH/$version ]; then
-        ln -sf $CORE_DLL_PATH/$version ./TwitterIrcGatewayCore.dll
-        echo "Created symbolic link to $(pwd)/TwitterIrcGatewayCore.dll"
+        cp -f $CORE_DLL_PATH/$version ./TwitterIrcGatewayCore.dll
+        echo "Enabled $version"
       else
         "$version is not found"
         exit 1
