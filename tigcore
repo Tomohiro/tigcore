@@ -8,7 +8,7 @@ set -e
     readonly PREFIX=$(pwd)
     readonly CORE_DLL_PATH=$PREFIX/CoreDlls
     readonly BIN_NAME=$(basename $0)
-    readonly VERSION='20130326'
+    readonly VERSION='20130430'
 
 
 # Sub commands
@@ -42,6 +42,7 @@ set -e
         TwitterIrcGatewayCore.dll-20120817-Debug2
         TwitterIrcGatewayCore.dll-20120817-Debug3
         TwitterIrcGatewayCore.dll-20130306
+        TwitterIrcGatewayCore.dll-20130405
       '
       for dll in $dll_versions; do
         echo $dll
